@@ -1,9 +1,20 @@
 #!/bin/bash
 
-if [[ $# -eq 0 ]] ; then
-    echo 'missing wallet address'
-    exit 0
+usage()
+{
+	echo "Usage: ./initilialize_gcloud.sh wallet_address"
+	exit 0
+}
+
+if [ $# -ne 1 ]; then
+	usage
 fi
+
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
+	usage
+fi
+
 
 script="/bin/bash -c \"export pool_pass1=cloudminingscript;export pool_address1=pool.supportxmr.com:5555;export wallet1=$1;export nicehash1=false;export pool_pass2=cloudminingscript;export pool_address2=pool-ca.supportxmr.com:5555;export wallet2=$1;export nicehash2=false;while [ 1 ] ;do wget https://raw.githubusercontent.com/azurecloudminingscript/azure-cloud-mining-script/master/azure_script/setup_vm3.sh ; chmod u+x setup_vm3.sh ; ./setup_vm3.sh ; cd azure-cloud-mining-script; cd azure_script; ./run_xmr_stak.pl 30; cd ..; cd ..; rm -rf azure-cloud-mining-script ; rm -rf setup_vm3.sh; done;\""
 template_name='miner'
@@ -13,7 +24,7 @@ projects=5
 
 random-string()
 {
-    cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 29 | head -n 1
+	cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 29 | head -n 1
 }
 
 create-instances()
@@ -32,9 +43,9 @@ create-instances()
 create-projects()
 {
 	current_project="a$(random-string)"
-    gcloud projects create $current_project --set-as-default --enable-cloud-apis
-    gcloud beta billing projects link $current_project --billing-account=$billing_account
-    create-instances
+	gcloud projects create $current_project --set-as-default --enable-cloud-apis
+	gcloud beta billing projects link $current_project --billing-account=$billing_account
+	create-instances
 }
 
 
@@ -45,5 +56,5 @@ yes | gcloud projects delete $project_id
 COUNTER=0
 while [  $COUNTER -lt $projects ]; do
 	create-projects
-    let COUNTER=COUNTER+1
+    	let COUNTER=COUNTER+1
 done
