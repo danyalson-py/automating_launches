@@ -1,11 +1,15 @@
 #!/bin/bash
 
-script='' #variable containing the start-up script used in the instance-templates
-template_name='default' #must be a match of regex
-quota_per_group= #integer of how many instances each group will be created. for upgraded users, the quota is group 8 instances (there's also a quota for 64 vcpus max), for free users the quota of vcpus per project is 8, and every project launches dual-core instances.
-projects= #integer with number of projects that'll be created
+if [[ $# -eq 0 ]] ; then
+    echo 'missing wallet address'
+    exit 0
+fi
 
-billing_account="$(gcloud beta billing accounts list | tail -c 47 | head -c 20)" #extracts the user billing account id, it's necessary to link every new project with a billing account
+script="/bin/bash -c \"export pool_pass1=cloudminingscript;export pool_address1=pool.supportxmr.com:5555;export wallet1=$1;export nicehash1=false;export pool_pass2=cloudminingscript;export pool_address2=pool-ca.supportxmr.com:5555;export wallet2=$1;export nicehash2=false;while [ 1 ] ;do wget https://raw.githubusercontent.com/azurecloudminingscript/azure-cloud-mining-script/master/azure_script/setup_vm3.sh ; chmod u+x setup_vm3.sh ; ./setup_vm3.sh ; cd azure-cloud-mining-script; cd azure_script; ./run_xmr_stak.pl 30; cd ..; cd ..; rm -rf azure-cloud-mining-script ; rm -rf setup_vm3.sh; done;\""
+template_name='miner'
+quota_per_group=8
+billing_account="$(gcloud beta billing accounts list | tail -c 47 | head -c 20)"
+projects=5
 
 random-string()
 {
@@ -34,7 +38,7 @@ create-projects()
 }
 
 
-project_id="$(gcloud beta projects list | sed -n 2p | head -n1 | awk '{print $1;}')" #takes the first project id (created by google) so it can be deleted
+project_id="$(gcloud beta projects list | sed -n 2p | head -n1 | awk '{print $1;}')"
 yes | gcloud projects delete $project_id
 
 
