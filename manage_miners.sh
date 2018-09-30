@@ -13,3 +13,21 @@ scale-group()
 	fi
 	gcloud compute instance-groups managed resize instance-group-$1 --size=$2 --region="${regions[$1-1]}"
 }
+
+downscale-groups()
+{
+	for i in {1..4}
+	do
+		scale-group $i 0
+	done
+}
+
+upscale-groups()
+{
+	for i in {1..4}
+	do
+		scale-group $i 8
+	done
+}
+
+
