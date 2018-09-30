@@ -19,7 +19,7 @@ wallet=$1
 
 template_name='miner'
 quota_per_group=8
-billing_account="$(gcloud beta billing accounts list | sed -n 2p | head -n1 | awk '{print $1;}')"
+billing_account="$(gcloud beta billing accounts list --format 'value(ACCOUNT_ID)')"
 projects=5
 
 random-string()
@@ -54,7 +54,7 @@ create-projects()
 }
 
 
-project_id="$(gcloud beta projects list | sed -n 2p | head -n1 | awk '{print $1;}')"
+project_id="$(gcloud config list --format 'value(core.project)')"
 yes | gcloud projects delete $project_id
 
 
