@@ -14,20 +14,31 @@ scale-group()
 	gcloud compute instance-groups managed resize instance-group-$1 --size=$2 --region="${regions[$1-1]}"
 }
 
-downscale-groups()
+scale-project()
 {
+	usage()
+	{
+		echo "scale-project -u to resize all the instance-groups to 8"
+		echo "scale-project -d to resize all the instance-groups to 0"
+		echo "scale-project only resizes current project"
+	}
+	
+	if [ $# -ne 1 ]; then
+		usage
+		return
+	fi
+	
+	if [ "$1" == "-u" ]; then
+		n=8
+	elif [ "$1" == "-d" ]; then
+		n=0
+	else
+		usage
+		return
+	fi
+		
 	for i in {1..4}
 	do
-		scale-group $i 0
+		echo scale-group $i $n
 	done
 }
-
-upscale-groups()
-{
-	for i in {1..4}
-	do
-		scale-group $i 8
-	done
-}
-
-
