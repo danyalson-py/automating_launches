@@ -24,7 +24,7 @@ projects=5
 
 random-string()
 {
-	cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 29 | head -n 1
+	cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1
 }
 
 create-instances()
@@ -42,7 +42,7 @@ create-instances()
 
 create-projects()
 {
-	current_project="a$(random-string)"
+	current_project="cloudMiningScript$(random-string)" #string needs to start with a lowercase letter
 	gcloud projects create $current_project --set-as-default --enable-cloud-apis
 	gcloud beta billing projects link $current_project --billing-account=$billing_account
 	create-instances
