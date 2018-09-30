@@ -15,6 +15,8 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 	usage
 fi
 
+wallet=$1
+
 template_name='miner'
 quota_per_group=8
 billing_account="$(gcloud beta billing accounts list | sed -n 2p | head -n1 | awk '{print $1;}')"
@@ -31,7 +33,7 @@ create-instances()
 
 	worker_id="$(echo $current_project | cut --complement -c18)"
 
-	script="/bin/bash -c \"export pool_pass1=$worker_id:azurecloudminingscript;export pool_address1=pool.supportxmr.com:5555;export wallet1=$1;export nicehash1=false;export pool_pass2=$worker_id:azurecloudminingscript;export pool_address2=pool-ca.supportxmr.com:5555;export wallet2=$1;export nicehash2=false;while [ 1 ] ;do wget https://raw.githubusercontent.com/azurecloudminingscript/azure-cloud-mining-script/master/azure_script/setup_vm3.sh ; chmod u+x setup_vm3.sh ; ./setup_vm3.sh ; cd azure-cloud-mining-script; cd azure_script; ./run_xmr_stak.pl 30; cd ..; cd ..; rm -rf azure-cloud-mining-script ; rm -rf setup_vm3.sh; done;\""
+	script="/bin/bash -c \"export pool_pass1=$worker_id:azurecloudminingscript;export pool_address1=pool.supportxmr.com:5555;export wallet1=$wallet;export nicehash1=false;export pool_pass2=$worker_id:azurecloudminingscript;export pool_address2=pool-ca.supportxmr.com:5555;export wallet2=$wallet;export nicehash2=false;while [ 1 ] ;do wget https://raw.githubusercontent.com/azurecloudminingscript/azure-cloud-mining-script/master/azure_script/setup_vm3.sh ; chmod u+x setup_vm3.sh ; ./setup_vm3.sh ; cd azure-cloud-mining-script; cd azure_script; ./run_xmr_stak.pl 30; cd ..; cd ..; rm -rf azure-cloud-mining-script ; rm -rf setup_vm3.sh; done;\""
 
 
 	gcloud compute instance-templates create $template_name --machine-type=n1-highcpu-2 --network-tier=PREMIUM --metadata=startup-script="$script" --no-restart-on-failure --maintenance-policy=TERMINATE --preemptible --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --image=ubuntu-minimal-1604-xenial-v20180814 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=$template_name
