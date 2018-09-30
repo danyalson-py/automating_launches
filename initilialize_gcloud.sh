@@ -42,7 +42,7 @@ create-instances()
 
 create-projects()
 {
-	current_project="cloudMiningScript-$(random-string)" #string needs to start with a lowercase letter
+	current_project="cloudminingscript-$(random-string)" #Project IDs must start with a lowercase letter and can have lowercase ASCII letters, digits or hyphens. Project IDs must be between 6 and 30 characters.
 	gcloud projects create $current_project --set-as-default --enable-cloud-apis
 	gcloud beta billing projects link $current_project --billing-account=$billing_account
 	create-instances
