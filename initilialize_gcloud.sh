@@ -16,11 +16,11 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 fi
 
 wallet=$1
-
 template_name='miner'
 quota_per_group=8
-billing_account="$(gcloud beta billing accounts list --format 'value(ACCOUNT_ID)')"
 projects=5
+billing_account="$(gcloud beta billing accounts list --format 'value(ACCOUNT_ID)')"
+current_project="$(gcloud config list --format 'value(core.project)')"
 
 random-string()
 {
@@ -53,9 +53,7 @@ create-projects()
 	create-instances
 }
 
-
-project_id="$(gcloud config list --format 'value(core.project)')"
-yes | gcloud projects delete $project_id
+yes | gcloud projects delete $current_project
 
 
 COUNTER=0
