@@ -11,5 +11,5 @@ scale-group()
     	echo "arg2 = new size"
     	return
 	fi
-	gcloud compute instance-groups managed resize instance-group-$1 --size=$2 --region="${regions[1-1]}"
+	gcloud compute instance-groups managed resize instance-group-$1 --size=$2 --region="${regions[$1-1]}"
 }
