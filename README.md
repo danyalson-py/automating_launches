@@ -9,7 +9,7 @@ Once the shell has started up, enter
 
 to load the script into your shell.
 If you cloned the repository already before and just want to update the script, enter
-> git checkout
+> git pull
 
 Then enter
 > cd automating_launches
