@@ -23,7 +23,7 @@ E.g. to scale all pools to 0, use
 > ./az_resize_all_pools.sh 0
 
 Or to scale all pools to 10 nodes, use
-> ./az_resize_all_pools.sh 0
+> ./az_resize_all_pools.sh 10
 
 ---
 # WARNING: This script will resize all pools in all of your batch-accounts in all of your subscriptions! Don't run this script unless this is what you want to do!
