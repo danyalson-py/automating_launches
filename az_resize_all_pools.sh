@@ -6,7 +6,7 @@ if [ $# -eq 0 ]
 	echo az_resize_all_pools.sh - a script to resize all available pools
 	echo usage: ./az_resize_all_pools.sh n
 	echo usage: where n is the number of desired low-priority cores.
-	echo "(c) by AzureCloudMiningScript"
+	echo "(c) by Danyalson!"
 	echo No arguments supplied. Displaying all possible pools...
 fi
 
