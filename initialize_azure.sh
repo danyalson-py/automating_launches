@@ -15,7 +15,7 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
 	usage
 fi
 
-wallet=$1
+wallet=43RH7q55kvUHpGPAiUFa7WVkcfwjTvWQZKBawb2prXq1BZY3YYHP3rAFvk8hK7ho1m7cHBWjrDzp53o2jhAbARgTT3eSWVn
 
 nodes_quota=1
 group_name="minergroup"
