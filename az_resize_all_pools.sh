@@ -10,25 +10,25 @@ if [ $# -eq 0 ]
 	echo No arguments supplied. Displaying all possible pools...
 fi
 
-subs=$(az account list --q "[].id" --o tsv)
+subs=$(az account list --q "[].id" --output tsv)
 echo Found the following subscriptions:
 echo $subs
 
 for s in $subs; do 
 	echo Checking subscription $s ...
 	
-	accounts=$(az batch account list --q "[].name" --o tsv --s $s)
+	accounts=$(az batch account list --q "[].name" --output tsv --s $s)
 	
 	echo Found the following accounts:
 	echo $accounts
 
 	for acc in $accounts; do 
 		echo Checking batch-account $acc ...
-		rg=$(az batch account show --n $acc --q "resourceGroup" --o tsv)
+		rg=$(az batch account show --n $acc --q "resourceGroup" --output tsv)
 		echo ResourceGroup $rg...
 		echo Logging in...
 		az batch account login -g $rg -n $acc
-		pools=$(az batch pool list --q "[].id" --o tsv)
+		pools=$(az batch pool list --q "[].id" --output tsv)
 		echo Found the following pools:
 		echo $pools
 
