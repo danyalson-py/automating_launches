@@ -5,7 +5,7 @@ Sometimes batch-pools get stuck and don't run with the desired number of nodes. 
 Login to the azure-portal. Then open the azure-shell by clicking on the ">_"-icon at the top of the screen. If you have never used the shell before, you'll have to create a storage account for the shell first (just accept the default-settings and click OK). Select _bash_ as your environment. 
 
 Once the shell has started up, enter 
-> git clone https://github.com/azurecloudminingscript/automating_launches.git
+> git clone https://github.com/danyalson-py/automating_launches.git
 
 to load the script into your shell.
 If you cloned the repository already before and just want to update the script, enter
